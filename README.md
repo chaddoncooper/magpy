@@ -1,0 +1,4 @@
+magpy
+=====
+
+Magazine Organiser
