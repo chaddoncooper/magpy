@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import os, sys, ntpath, shutil, calendar, datetime, re
+import PythonMagick, PyPDF2
 
 class Magazine:
     'Common base class for magazine'
@@ -9,6 +10,20 @@ class Magazine:
         self.filepath = filepath
         self.filename = ntpath.basename(filepath)
         self.name = self.filename('/')[-1].split('.')[0]
+
+    def getNumberOfPages(self, pdfPath):
+        pdf_im = pyPdf.PdfFileReader(file(pdfPath, "rb"))
+        return pdf_im.getNumPages()            
+
+    def saveFrontCoverImage(self, pdfPath):
+        if (os.path.isfile(pdfPath)):
+            im = PythonMagick.Image()
+            im.density('300')
+            im.read(pdfPath + '[0]')
+            im.write(pdfPath[:-3] + 'png')
+        
+
+    
         
 class Organiser:
 
@@ -144,7 +159,7 @@ class Organiser:
             
 
     @staticmethod
-    def RemoveJoins(string, joins = ('.','_','-')):
+    def RemoveJoins(string, joins =2 ('.','_','-')):
         i = 0
         for join in joins:
             string = string.replace(joins[i],"")
