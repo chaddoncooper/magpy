@@ -8,13 +8,13 @@ class Util:
 		os.system('cls' if os.name == 'nt' else 'clear')
 
 	@staticmethod
-	def FindFiles(sourceDir, fileType='', recursive=0):
+	def FindFiles(sourceDir, fileTypes=(), recursive=0):
 		""" Recursive scanning of a directory for files of a given type
 
 		:param sourceDir: Root directory to scan.
 		:type sourceDir: str
-		:param fileType: Type of file to scan for e.g. 'pdf'.
-		:type fileType: str
+		:param fileType: Type of files to scan for e.g. ('pdf','jpg').
+		:type fileType: arr
 		:param recursive: Will scan subdirs if == 1 (default 0).
 		:type recursive: int (1|0) 
 		:returns: List of files
@@ -24,11 +24,11 @@ class Util:
 		files = []
 		for file in dirs:
 		    if os.path.isdir(sourceDir + os.path.sep + file) and recursive == 1:
-			moreFiles = Util.FindFiles(sourceDir + os.path.sep + file,fileType,recursive)
+			moreFiles = Util.FindFiles(sourceDir + os.path.sep + file,fileTypes,recursive)
 			if moreFiles:
 			    for fileFromSubDir in moreFiles:
 				files.append(fileFromSubDir)
-		    if fileType == '' or file.lower().endswith(fileType.lower()):
+		    if not fileTypes or any(file.lower().endswith(x.lower()) for x in fileTypes):
 				files.append(sourceDir + os.path.sep + file)
 		return files
 
